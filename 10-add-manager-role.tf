@@ -39,7 +39,7 @@ resource "aws_iam_policy" "eks_admin" {
             "Resource": "*",
             "Condition": {
                 "StringEquals": {
-                    "iam:PassedToService": "eks.amazon.com"
+                    "iam:PassedToService": "eks.amazonaws.com"
                 }
             }
         }
@@ -84,6 +84,6 @@ resource "aws_iam_user_policy_attachment" "manager" {
 # Best practice: use IAM roles due to temporary credentials
 resource "aws_eks_access_entry" "manager" {
   cluster_name      = aws_eks_cluster.eks.name
-  principal_arn     = aws_iam_user.manager.arn
+  principal_arn     = aws_iam_role.eks_admin.arn # @Attention: Use the role ARN
   kubernetes_groups = ["my-admin"]
 }
