@@ -1,3 +1,6 @@
+kubectl apply -f eks/1-rbac
+
+
 aws configure --profile manager # add manager AWS credentials
 
 aws sts assume-role \
