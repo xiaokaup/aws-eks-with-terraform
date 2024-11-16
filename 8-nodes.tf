@@ -47,7 +47,8 @@ resource "aws_eks_node_group" "general" {
   ]
 
   capacity_type  = "ON_DEMAND"
-  instance_types = ["t2.micro"]
+  instance_types = ["t3.large"]
+  # instance_types = ["t2.micro"] # lack of capacity to run the Kubernetes metrics-server system pods
 
   scaling_config {
     desired_size = 1
