@@ -23,3 +23,12 @@ kubectl get ing -n 6-example
 curl -i --header "Host: ex6.antonputra.com" http://k8s-6example-myapp-c79dafe9b7-1638754451.us-east-2.elb.amazonaws.com/about
 
 kubectl delete ns 6-example
+
+# Third example
+kubectl apply -f eks/6-lbc-third-example
+
+kubectl get ing -n 7-example
+
+dig ex7.antonputra.com
+
+kubectl delete ns 7-example

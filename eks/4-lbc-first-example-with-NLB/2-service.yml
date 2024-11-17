@@ -9,7 +9,7 @@ metadata:
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: external
     service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
-    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing # internal to be public or internet-facing to be private
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing # internet-facing to be public or internal to be private
     # service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
 spec:
   type: LoadBalancer
