@@ -57,7 +57,7 @@ resource "helm_release" "aws_lbc" {
 
   set {
     name  = "serviceAccount.name"
-    value = "aws-load-balancer-contronller"
+    value = "aws-load-balancer-controller"
   }
 
   depends_on = [helm_release.cluster_autoscaler]
