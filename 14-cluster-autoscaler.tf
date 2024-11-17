@@ -26,22 +26,17 @@ resource "aws_iam_policy" "cluster_autoscaler" {
     Statement = [
       {
         Effect = "Allow",
-        Statement = [
-          {
-            Effect = "Allow",
-            Action = [
-              "autoscaling:DescrieAutoScalingGroups",
-              "autoscaling:DescribeAutoScalingInstances",
-              "autoscaling:DescribeLaunchConfiguraitons",
-              "autoscaling:DescribeScalingActivities",
-              "autoscaling:DescribeTags",
-              "ec2:DescribeImages",
-              "ec2:DescribeInstanceTypes",
-              "ec2:DescribeLaunchTemplateVersions",
-              "ec2:GetInstanceTypesFromInstanceRequirements",
-              "eks:DescribeNodegroup",
-            ]
-          }
+        Action = [
+          "autoscaling:DescrieAutoScalingGroups",
+          "autoscaling:DescribeAutoScalingInstances",
+          "autoscaling:DescribeLaunchConfiguraitons",
+          "autoscaling:DescribeScalingActivities",
+          "autoscaling:DescribeTags",
+          "ec2:DescribeImages",
+          "ec2:DescribeInstanceTypes",
+          "ec2:DescribeLaunchTemplateVersions",
+          "ec2:GetInstanceTypesFromInstanceRequirements",
+          "eks:DescribeNodegroup",
         ]
         Resource = "*"
       },
@@ -50,7 +45,8 @@ resource "aws_iam_policy" "cluster_autoscaler" {
         Action = [
           "autoscaling:SetDesiredCapacity",
           "autoscaling:TernimateInstanceInAutoScalingGroup"
-        ]
+        ],
+        Resource = "*"
       }
     ]
   })
