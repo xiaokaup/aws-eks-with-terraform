@@ -27,16 +27,16 @@ resource "aws_iam_policy" "cluster_autoscaler" {
       {
         Effect = "Allow",
         Action = [
-          "autoscaling:DescrieAutoScalingGroups",
+          "autoscaling:DescribeAutoScalingGroups",
           "autoscaling:DescribeAutoScalingInstances",
-          "autoscaling:DescribeLaunchConfiguraitons",
+          "autoscaling:DescribeLaunchConfigurations",
           "autoscaling:DescribeScalingActivities",
           "autoscaling:DescribeTags",
           "ec2:DescribeImages",
           "ec2:DescribeInstanceTypes",
           "ec2:DescribeLaunchTemplateVersions",
           "ec2:GetInstanceTypesFromInstanceRequirements",
-          "eks:DescribeNodegroup",
+          "eks:DescribeNodegroup"
         ]
         Resource = "*"
       },
@@ -44,7 +44,7 @@ resource "aws_iam_policy" "cluster_autoscaler" {
         Effect = "Allow",
         Action = [
           "autoscaling:SetDesiredCapacity",
-          "autoscaling:TernimateInstanceInAutoScalingGroup"
+          "autoscaling:TerminateInstanceInAutoScalingGroup"
         ],
         Resource = "*"
       }
@@ -62,4 +62,31 @@ resource "aws_eks_pod_identity_association" "cluster_autoscaler" {
   namespace       = "kube-system"
   service_account = "cluster-autoscaler"
   role_arn        = aws_iam_role.cluster_autoscaler.arn
+}
+
+resource "helm_release" "cluster_autoscaler" {
+  name = "autoscaler"
+
+  repository = "https://kubernetes.github.io/autoscaler"
+  chart      = "cluster-autoscaler"
+  namespace  = "kube-system"
+  version    = "9.37.0"
+
+  set {
+    name  = "rbac.serviceAccount.name"
+    value = "cluster-autoscaler"
+  }
+
+  # Must be updated to match your region
+  set {
+    name  = "autoDiscovery.clusterName"
+    value = aws_eks_cluster.eks.name
+  }
+
+  set {
+    name  = "awsRegion"
+    value = local.region
+  }
+
+  depends_on = [helm_release.metrics_server]
 }
